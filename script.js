@@ -27,7 +27,7 @@ $(document).ready(function () {
         .then(function(response) {
             console.log(response);
 
-            $("weatherContent").empty();
+            $("#weatherContent").empty();
            
             // Establishing variables for weather elements
             var cityTitle = $("<h3>").addClass("card-title").text(response.city.name +" ("+ new Date().toLocaleDateString() + ")");
