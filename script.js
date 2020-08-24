@@ -26,6 +26,8 @@ $(document).ready(function () {
         })
         .then(function(response) {
             console.log(response);
+           
+            // Establishing variables for weather elements
             var cityTitle = $("<h3>").addClass("card-title").text(response.city.name +" ("+ new Date().toLocaleDateString() + ")");
             var card = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
@@ -33,6 +35,12 @@ $(document).ready(function () {
             var humidity = $("<p>").addClass("card-text").text("Humidity: " +response.list[1].main.humidity+ " %");
             var wind = $("<p>").addClass("card-text").text("Winds: " +response.list[1].wind.speed+ " MPH");
             var sprite = $("<img>").attr("src", "https://openweathermap.org/img/w/" +response.list[1].weather[0].icon+ ".png");
+
+            var lat = response.city.coord.lat;
+            var lon = response.city.coord.lon;
+
+            // console.log(lat);
+            // console.log(lon);
             // console.log(cityTitle);
             // console.log(card);
             // console.log(cardBody);
@@ -41,12 +49,41 @@ $(document).ready(function () {
             // console.log(wind);
             // console.log(img);
 
-
+            // Appending newly created elements
             cityTitle.append(sprite);
             cardBody.append(cityTitle, temperature, humidity, wind);
             card.append(cardBody);
             $("#weatherContent").append(card);
 
+            // Referencing the UV Index API Call to append UV Index
+            function uvIndex(lat, lon) {
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.openweathermap.org/data/2.5/uvi?appid=15ebf37ef6d8f1fde1b506df67ad2edb&lat=" +lat+ "&lon=" + lon
+                })
+                .then(function(response) {
+                    var uvP = $("<p>").text("UV Index: ");
+                    var uvNum = $("<span>").addClass("btn btn-sm").text(response.value);
+                    console.log(response);
+                    console.log(uvNum);
+        
+                    if (response.value <= 3) {
+                        uvNum.addClass("btn-success");
+                    }
+                    else if (response.value <= 7) {
+                        uvNum.addClass("btn-warning");
+                    }
+                    else {
+                        uvNum.addClass("btn-danger");
+                    }
+        
+                    $(".card-body").append(uvP.append(uvNum));
+                })
+            }       
+            
+            uvIndex(lat, lon);
+
+            // Creating 5 Day Forecast section header when a city is searched
             $("#fiveDayForecast").html("<h4 class='row m-3'>5-Day Forecast:</h4>");
 
             // Referencing all the days at noon for the 5 day forecast
@@ -64,16 +101,10 @@ $(document).ready(function () {
                     castCard.append(castBody);
                     castBody.append(castTitle, castImg, castTemperature, castHumidity);
                     $("#fiveDayForecast").append(castCol);
-
                 }
             }
-        
         })
     }
-
-
-
-
 
 })
 
