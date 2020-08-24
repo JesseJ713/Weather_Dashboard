@@ -26,11 +26,13 @@ $(document).ready(function () {
         })
         .then(function(response) {
             console.log(response);
+
+            $("weatherContent").empty();
            
             // Establishing variables for weather elements
             var cityTitle = $("<h3>").addClass("card-title").text(response.city.name +" ("+ new Date().toLocaleDateString() + ")");
             var card = $("<div>").addClass("card");
-            var cardBody = $("<div>").addClass("card-body");
+            var cardBody = $("<div>").addClass("card-body").attr("id", "currentWeatherContent");
             var temperature = $("<p>").addClass("card-text").text("Temperature: " +(Math.round(response.list[1].main.temp))+ " °F");
             var humidity = $("<p>").addClass("card-text").text("Humidity: " +response.list[1].main.humidity+ " %");
             var wind = $("<p>").addClass("card-text").text("Winds: " +response.list[1].wind.speed+ " MPH");
@@ -77,7 +79,7 @@ $(document).ready(function () {
                         uvNum.addClass("btn-danger");
                     }
         
-                    $(".card-body").append(uvP.append(uvNum));
+                    $("#currentWeatherContent").append(uvP.append(uvNum));
                 })
             }       
             
