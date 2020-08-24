@@ -47,6 +47,27 @@ $(document).ready(function () {
             card.append(cardBody);
             $("#weatherContent").append(card);
 
+            $("#fiveDayForecast").html("<h4 class='row m-3'>5-Day Forecast:</h4>");
+
+            // Referencing all the days at noon for the 5 day forecast
+            for (var i = 0; i < response.list.length; i++) {
+                if (response.list[i].dt_txt.indexOf("12:00:00") !== -1) {
+                    var castCol = $("<div>").addClass("col-md-2");
+                    var castCard = $("<div>").addClass("card bg-primary text-white");
+                    var castBody = $("<div>").addClass("card-body p-2");
+                    var castTitle = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
+                    var castImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" +response.list[i].weather[0].icon+ ".png");
+                    var castTemperature = $("<p>").addClass("card-text").text("Temp: " +(Math.round(response.list[i].main.temp))+ " °F");
+                    var castHumidity = $("<p>").addClass("card-text").text("Humidity: " +response.list[i].main.humidity+ " %");
+
+                    castCol.append(castCard);
+                    castCard.append(castBody);
+                    castBody.append(castTitle, castImg, castTemperature, castHumidity);
+                    $("#fiveDayForecast").append(castCol);
+
+                }
+            }
+        
         })
     }
 
