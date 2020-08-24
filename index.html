@@ -10,6 +10,36 @@
 </head>
 <body>
 
+<!-- Dashboard Header -->
+    <div class="jumbotron jumbotron-fluid headDash">
+        <div class="container">
+            <h1 class="display-3 text-center">Weather Dashboard</h1>
+        </div>
+    </div>
+
+<!-- Main Content Container -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Search Column -->
+            <div class="col-3">
+                <h3>Search for a City:</h3>
+                <div class="input-group mb-3">
+                    <input type="text" id="inputCity" class="form-control" placeholder="City Name">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">🔎</button>
+                    </div>
+                    <!-- Div to append Cities -->
+                    <div class="list-group" id="cityList"></div>
+                </div>
+            </div>
+            <!-- Weather Content -->
+            <div class="col-9">
+                <div id="weatherContent" class="card" style="width: 100%">Placeholder</div>
+                <div id="fiveDayForecast"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="script.js"></script> 
 </body>

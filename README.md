@@ -13,3 +13,5 @@ This application will provide the weather on a 5-day forecast for cities inputte
 
 
 ## Project Status
+
+My goal with this project is to try and resemble the blueprint given so I can focus on functionality and communication between the program and API. 
