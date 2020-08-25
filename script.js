@@ -5,6 +5,7 @@ $(document).ready(function () {
         var inputVal = $("#inputCity").val();
         // console.log(inputVal);
         $("#inputCity").val("");
+        cityList(inputVal);
         getWeather(inputVal);
     })
 
@@ -14,9 +15,17 @@ $(document).ready(function () {
             var inputVal = $("#inputCity").val();
             // console.log(inputVal);
             $("#inputCity").val("");
+            cityList(inputVal);
             getWeather(inputVal);
         }
     })
+
+    function cityList (city) {
+        var historyList = $("<button>").addClass("btn btn-outline-primary").text(city);
+        $("#cityList").prepend(historyList);
+    }
+
+    // var searchedCity = JSON.parse(localStorage.getItem("searchedCity")) || [];
 
     // Retrieving weather data from API
     function getWeather (inputVal) {
@@ -28,6 +37,13 @@ $(document).ready(function () {
             console.log(response);
 
             $("#weatherContent").empty();
+
+            // if (history.indexOf(inputVal) === -1) {
+            //     history.push(inputVal);
+            //     window.localStorage.setItem("searchedCity", JSON.stringify(history));
+
+            //     cityList(inputVal);
+            // }
            
             // Establishing variables for weather elements
             var cityTitle = $("<h3>").addClass("card-title").text(response.city.name +" ("+ new Date().toLocaleDateString() + ")");
