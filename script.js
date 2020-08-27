@@ -3,7 +3,6 @@ $(document).ready(function () {
     // Saving value from input through button
     $("#inputBtn").on("click", function() {
         var inputVal = $("#inputCity").val();
-        // console.log(inputVal);
         $("#inputCity").val("");
         cityList(inputVal);
         getWeather(inputVal);
@@ -13,15 +12,22 @@ $(document).ready(function () {
     $("#inputCity").on("keypress", function (e) {
         if (e.which == 13) {
             var inputVal = $("#inputCity").val();
-            // console.log(inputVal);
             $("#inputCity").val("");
             cityList(inputVal);
             getWeather(inputVal);
         }
     })
 
+        // Allowing users to click on history list to redisplay forecast
+    $("#cityList").on("click", "button", function() {
+        var inputVal = $(this).text();
+        console.log(inputVal);
+        getWeather(inputVal);
+    })
+
+        // Prepend cities searched for to a historical list
     function cityList (city) {
-        var historyList = $("<button>").addClass("btn btn-outline-primary").text(city);
+        var historyList = $("<button>").addClass("btn btn-outline-primary searchedCity").text(city);
         $("#cityList").prepend(historyList);
     }
 
@@ -34,7 +40,6 @@ $(document).ready(function () {
             url: "https://api.openweathermap.org/data/2.5/forecast?q=" +inputVal+ "&units=imperial&appid=15ebf37ef6d8f1fde1b506df67ad2edb"
         })
         .then(function(response) {
-            console.log(response);
 
             $("#weatherContent").empty();
 
@@ -57,16 +62,6 @@ $(document).ready(function () {
             var lat = response.city.coord.lat;
             var lon = response.city.coord.lon;
 
-            // console.log(lat);
-            // console.log(lon);
-            // console.log(cityTitle);
-            // console.log(card);
-            // console.log(cardBody);
-            // console.log(temperature);
-            // console.log(humidity);
-            // console.log(wind);
-            // console.log(img);
-
             // Appending newly created elements
             cityTitle.append(sprite);
             cardBody.append(cityTitle, temperature, humidity, wind);
@@ -82,8 +77,6 @@ $(document).ready(function () {
                 .then(function(response) {
                     var uvP = $("<p>").text("UV Index: ");
                     var uvNum = $("<span>").addClass("btn btn-sm").text(response.value);
-                    console.log(response);
-                    console.log(uvNum);
         
                     if (response.value <= 3) {
                         uvNum.addClass("btn-success");
